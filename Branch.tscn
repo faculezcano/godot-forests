@@ -1,0 +1,129 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Branch.gd" type="Script" id=1]
+
+[sub_resource type="Curve3D" id=1]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0.114748, 1, -0.23347, 0, 0, 0, 0, 0, 0, -0.182135, 2, -0.348482, 0, 0, 0, 0, 0, 0, 0.324073, 3, -0.516487, 0, 0, 0, 0, 0, 0, 0.292642, 4, -0.508417 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0 )
+}
+
+[sub_resource type="Curve3D" id=2]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0592039, 1, -0.0601253, 0, 0, 0, 0, 0, 0, 0.217774, 2, -0.160659, 0, 0, 0, 0, 0, 0, -0.0389925, 3, -0.229235 ),
+"tilts": PoolRealArray( 0, 0, 0, 0 )
+}
+
+[sub_resource type="Curve3D" id=3]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0.00385444, 1, 0.167672, 0, 0, 0, 0, 0, 0, 0.339024, 2, 0.407212 ),
+"tilts": PoolRealArray( 0, 0, 0 )
+}
+
+[sub_resource type="Curve3D" id=4]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
+"tilts": PoolRealArray( 0 )
+}
+
+[node name="Branch" type="Spatial"]
+script = ExtResource( 1 )
+iteration = 4
+branches = 4
+direction_deviation = Vector3( 0.2, 0, 0.2 )
+Seed = 36
+sides = 8
+
+[node name="Path" type="Path" parent="."]
+curve = SubResource( 1 )
+
+[node name="Branches" type="Spatial" parent="."]
+
+[node name="Spatial" type="Spatial" parent="Branches"]
+transform = Transform( 0.778384, 0.443913, 0.443913, 0, 0.707107, -0.707107, -0.627788, 0.550401, 0.550401, -0.114748, 1, -0.23347 )
+script = ExtResource( 1 )
+iteration = 3
+direction_deviation = Vector3( 0.2, 0, 0.2 )
+Seed = 3605727981
+radius = 0.025
+sides = 8
+
+[node name="Path" type="Path" parent="Branches/Spatial"]
+curve = SubResource( 2 )
+
+[node name="Branches" type="Spatial" parent="Branches/Spatial"]
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Branches/Spatial"]
+invert_faces = true
+polygon = PoolVector2Array( 0.025, 0, 0.0176777, 0.0176777, -1.09278e-09, 0.025, -0.0176777, 0.0176777, -0.025, -2.18557e-09, -0.0176777, -0.0176777, 7.84791e-09, -0.025, 0.0176777, -0.0176777 )
+mode = 2
+path_node = NodePath("/root/EditorNode/@@592/@@593/@@601/@@603/@@607/@@611/@@612/@@613/@@629/@@630/@@639/@@640/@@6339/@@6178/@@6179/@@6180/@@6181/@@6182/Branch/Branches/Spatial/Path")
+path_interval = 1.0
+path_rotation = 1
+path_local = false
+path_continuous_u = false
+path_joined = false
+smooth_faces = true
+
+[node name="Spatial2" type="Spatial" parent="Branches"]
+transform = Transform( -0.407556, 0.645716, 0.645716, 0, 0.707107, -0.707107, -0.91318, -0.288186, -0.288186, -0.182135, 2, -0.348482 )
+script = ExtResource( 1 )
+iteration = 2
+direction_deviation = Vector3( 0.2, 0, 0.2 )
+Seed = 237458104
+radius = 0.01875
+sides = 8
+
+[node name="Path" type="Path" parent="Branches/Spatial2"]
+curve = SubResource( 3 )
+
+[node name="Branches" type="Spatial" parent="Branches/Spatial2"]
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Branches/Spatial2"]
+invert_faces = true
+polygon = PoolVector2Array( 0.01875, 0, 0.0132583, 0.0132583, -8.19589e-10, 0.01875, -0.0132583, 0.0132583, -0.01875, -1.63918e-09, -0.0132582, -0.0132583, 5.88593e-09, -0.01875, 0.0132583, -0.0132582 )
+mode = 2
+path_node = NodePath("/root/EditorNode/@@592/@@593/@@601/@@603/@@607/@@611/@@612/@@613/@@629/@@630/@@639/@@640/@@6339/@@6178/@@6179/@@6180/@@6181/@@6182/Branch/Branches/Spatial2/Path")
+path_interval = 1.0
+path_rotation = 1
+path_local = false
+path_continuous_u = false
+path_joined = false
+smooth_faces = true
+
+[node name="Spatial3" type="Spatial" parent="Branches"]
+transform = Transform( 0.948256, -0.224512, -0.224512, 0, 0.707107, -0.707107, 0.317508, 0.670518, 0.670518, 0.292642, 4, -0.508417 )
+script = ExtResource( 1 )
+direction_deviation = Vector3( 0.2, 0, 0.2 )
+Seed = 3913812532
+radius = 0.00625
+sides = 8
+
+[node name="Path" type="Path" parent="Branches/Spatial3"]
+curve = SubResource( 4 )
+
+[node name="Branches" type="Spatial" parent="Branches/Spatial3"]
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Branches/Spatial3"]
+invert_faces = true
+polygon = PoolVector2Array( 0.00625, 0, 0.00441942, 0.00441942, -2.73196e-10, 0.00625, -0.00441942, 0.00441942, -0.00625, -5.46392e-10, -0.00441942, -0.00441942, 1.96198e-09, -0.00625, 0.00441942, -0.00441942 )
+mode = 2
+path_node = NodePath("/root/EditorNode/@@592/@@593/@@601/@@603/@@607/@@611/@@612/@@613/@@629/@@630/@@639/@@640/@@6339/@@6178/@@6179/@@6180/@@6181/@@6182/Branch/Branches/Spatial3/Path")
+path_interval = 1.0
+path_rotation = 1
+path_local = false
+path_continuous_u = false
+path_joined = false
+smooth_faces = true
+
+[node name="CSGPolygon" type="CSGPolygon" parent="."]
+invert_faces = true
+polygon = PoolVector2Array( 0.05, 0, 0.0353553, 0.0353553, -2.18557e-09, 0.05, -0.0353553, 0.0353553, -0.05, -4.37114e-09, -0.0353553, -0.0353553, 1.56958e-08, -0.05, 0.0353554, -0.0353553 )
+mode = 2
+path_node = NodePath("/root/EditorNode/@@592/@@593/@@601/@@603/@@607/@@611/@@612/@@613/@@629/@@630/@@639/@@640/@@6339/@@6178/@@6179/@@6180/@@6181/@@6182/Branch/Path")
+path_interval = 1.0
+path_rotation = 1
+path_local = false
+path_continuous_u = false
+path_joined = false
+smooth_faces = true
