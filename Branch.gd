@@ -15,13 +15,11 @@ export var direction_deviation: Vector3 = Vector3() setget set_direction_deviati
 export var Seed: int = 0 setget set_seed;
 var rng = RandomNumberGenerator.new()
 
-export var radius: float = 0.05;
-export var sides: int = 5;
+export var radius_increment: float = 0.05 setget set_radius_increment;
+export var sides: int = 5 setget set_sides;
 
 var startPoint: Vector3 = Vector3();
 var _lastPoint: Vector3 = Vector3(0,0,0);
-
-var _polygon: PoolVector2Array = PoolVector2Array();
 
 var csg: CSGPolygon;
 
@@ -29,11 +27,9 @@ var path: Path;
 var branches_node: Spatial;
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var ray = Vector2(radius, 0);
 	
-	for i in sides:
-		_polygon.push_back(ray);
-		ray = ray.rotated(2*PI/sides);
+	
+	
 	reset();
 	update();
 	pass # Replace with function body.
@@ -49,10 +45,11 @@ func update():
 	if(path == null):
 		return
 	#reset(); # debug
+	csg.polygon =_generateCircle(iteration*radius_increment,sides);
 	while _currentIteration < iteration :
 		_lastPoint = _lastPoint+randomVector3(direction, direction_deviation);
 		path.get_curve().add_point(_lastPoint);
-		branches();
+		_update_branches();
 		_currentIteration+=1
 	pass
 
@@ -79,12 +76,17 @@ func reset():
 	csg.smooth_faces = true;
 	csg.mode = CSGPolygon.MODE_PATH;
 	csg.invert_faces = true;
-	csg.polygon = _polygon;
 	csg.path_node = path.get_path();
 	add_child(csg);
 	csg.set_owner(get_tree().edited_scene_root);
 	
 
+func set_radius_increment(value: float):
+	radius_increment = value;
+	update();
+func set_sides(value: int):
+	sides = value;
+	update();
 func set_iteration(value: int):
 	if(value < iteration):
 		reset();
@@ -111,13 +113,15 @@ func set_branches(value: int):
 	reset();
 	update();
 
-func branches():
+func _update_branches():
 	var branches = branches_node.get_children();
 	for branch in branches:
-		branch.set_iteration(branch.iteration+1);
+		if(_currentIteration < iteration):
+			branch.set_iteration(branch.iteration+1);
+		branch.set_sides(sides);
 		branch.update();
 
-	if(_currentBranches > 0):
+	if(_currentIteration < iteration):
 		if(rng.randi_range(0,1) == 1):
 #			var branch_direction = (direction + Vector3(0.5, 0, 0)).normalized();
 #			branch_direction = branch_direction.rotated(Vector3(0, 1, 0), rng.randf_range(0, 2*PI));
@@ -129,9 +133,18 @@ func branches():
 			new_branch.rotate_y(rng.randf_range(0, 2*PI));
 #			new_branch.set_direction(branch_direction);
 			new_branch.set_direction_deviation(direction_deviation);
-			new_branch.radius = radius*0.5*(iteration-_currentIteration)/iteration;
+			new_branch.radius_increment = radius_increment*0.5*(iteration-_currentIteration)/iteration;
 			new_branch.sides = sides;
 	
 			branches_node.add_child(new_branch);
 			new_branch.set_owner(get_tree().edited_scene_root);
 			_currentBranches-=1;
+
+
+func _generateCircle(radius: float,sides: int):
+	var polygon: PoolVector2Array = PoolVector2Array();
+	var ray = Vector2(radius, 0);
+	for i in sides:
+		polygon.push_back(ray);
+		ray = ray.rotated(2*PI/sides);
+	return polygon;
