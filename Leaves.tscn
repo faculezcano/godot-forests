@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Leaves.gd" type="Script" id=1]
+
+[sub_resource type="Curve3D" id=1]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -5.12486, -2.64779, 4.53699, 0, 0, 0, 0, 0, 0, -3.71718, -1.83076, 3.23093, 0, 0, 0, 0, 0, 0, -3.19022, -1.28607, 2.58271, 0, 0, 0, 0, 0, 0, -3.12155, 0.347995, 1.45571, 0, 0, 0, 0, 0, 0, -3.42322, 1.98206, 0.528957, 0, 0, 0, 0, 0, 0, -3.49198, 3.55561, -0.483371, 0, 0, 0, 0, 0, 0, -3.81609, 5.15941, -1.37785 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0 )
+}
+
+[node name="Leaves" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="Path" type="Path" parent="."]
+curve = SubResource( 1 )

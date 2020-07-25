@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "Branch",
 "language": "GDScript",
 "path": "res://Branch.gd"
+}, {
+"base": "Spatial",
+"class": "Leaves",
+"language": "GDScript",
+"path": "res://Leaves.gd"
 } ]
 _global_script_class_icons={
-"Branch": ""
+"Branch": "",
+"Leaves": ""
 }
 
 [application]
